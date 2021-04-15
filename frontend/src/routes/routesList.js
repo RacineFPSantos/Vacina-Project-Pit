@@ -1,9 +1,9 @@
-import Index from '../pages';
+import Home from '../pages';
 
 export default [
   {
     name: 'Home',
     path: '/',
-    component: Index,
+    component: Home,
   },
 ];

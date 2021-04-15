@@ -1,10 +1,18 @@
 import React from 'react';
+import Page from '../components/page';
 
 function Index() {
   return (
-    <div className="App">
-      <h1>Clean</h1>
-    </div>
+    <Page>
+      <div className="btn-group">
+        <button type="button" className="btn">
+          Agendamento
+        </button>
+        <button type="button" className="btn">
+          Enfermeiro
+        </button>
+      </div>
+    </Page>
   );
 }
 
