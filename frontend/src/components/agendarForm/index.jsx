@@ -2,21 +2,59 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import FormikControl from '../formikComponents/formikControl';
 
-const index = () => (
-  <Formik>
-    <Form>
-      <FormikControl control="input" type="text" label="Nome" name="name" />
+const index = () => {
+  // Time configuration
+  const minTime = { minHour: 7, minMinutes: 0 };
+  const maxTime = { maxHour: 16, maxMinutes: 30 };
+  const timeIntervals = 30;
 
-      <FormikControl
-        control="date"
-        label="Data de nascimento"
-        name="birthdate"
-        minDate={null}
-      />
+  // Formik
+  const initialValues = {
+    name: '',
+    birthdate: null,
+    dateVaccine: null,
+    timeVaccine: null,
+  };
 
-      <button type="submit">Submit</button>
-    </Form>
-  </Formik>
-);
+  const onSubmit = (values) => {
+    console.log('Submit Works', values);
+  };
+
+  return (
+    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      {(formik) => (
+        <Form>
+          <FormikControl control="input" type="text" label="Nome" name="name" />
+
+          <FormikControl
+            control="date"
+            label="Data de nascimento"
+            name="birthdate"
+            minDate={null}
+          />
+
+          <FormikControl
+            control="date"
+            label="Data Vacinação"
+            name="dateVaccine"
+            minDate={new Date()}
+          />
+
+          <FormikControl
+            control="time"
+            label="Hora"
+            name="timeVaccine"
+            timeCaption="Horário"
+            timeIntervals={timeIntervals}
+            minTime={minTime}
+            maxTime={maxTime}
+          />
+
+          <button type="submit">Submit</button>
+        </Form>
+      )}
+    </Formik>
+  );
+};
 
 export default index;
