@@ -1,8 +1,10 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import FormikControl from '../formikComponents/formikControl';
+import axios from '../../utils/api';
+import { formatDateForDatabase } from '../../utils/dateFormatter';
 
-const index = () => {
+const index = ({ history }) => {
   // Time configuration
   const minTime = { minHour: 7, minMinutes: 0 };
   const maxTime = { maxHour: 16, maxMinutes: 30 };
@@ -16,8 +18,18 @@ const index = () => {
     timeVaccine: null,
   };
 
-  const onSubmit = (values) => {
-    console.log('Submit Works', values);
+  const onSubmit = async ({ name, birthdate, dateVaccine, timeVaccine }) => {
+    const pacient = {
+      name,
+      birthdate,
+      dateVaccine: formatDateForDatabase(dateVaccine, timeVaccine),
+    };
+
+    try {
+      await axios.post('/paciente', pacient);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
