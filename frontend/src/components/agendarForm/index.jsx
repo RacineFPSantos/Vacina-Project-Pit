@@ -1,5 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+
 import FormikControl from '../formikComponents/formikControl';
 import axios from '../../utils/api';
 import { formatDateForDatabase } from '../../utils/dateFormatter';
@@ -18,6 +20,13 @@ const index = ({ history }) => {
     timeVaccine: null,
   };
 
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Preencha esse dado.'),
+    birthdate: Yup.date().required('Preencha esse dado.').nullable(),
+    dateVaccine: Yup.date().required('Preencha esse dado.').nullable(),
+    timeVaccine: Yup.string().required('Preencha esse dado.').nullable(),
+  });
+
   const onSubmit = async ({ name, birthdate, dateVaccine, timeVaccine }) => {
     const pacient = {
       name,
@@ -33,7 +42,11 @@ const index = ({ history }) => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={onSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
       {(formik) => (
         <Form>
           <FormikControl control="input" type="text" label="Nome" name="name" />
