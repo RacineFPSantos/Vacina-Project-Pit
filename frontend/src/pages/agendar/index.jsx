@@ -1,9 +1,11 @@
 import React from 'react';
 import Page from '../../components/page';
 
+import Form from '../../components/agendarForm';
+
 const index = () => (
   <Page>
-    <h1>Form data will be here</h1>
+    <Form />
   </Page>
 );
 
