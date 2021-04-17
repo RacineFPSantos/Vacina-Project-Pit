@@ -7,7 +7,7 @@ import {
 } from '../../utils/dateFormatter';
 
 const Patient = ({ patient: { name, birthdate, dateVaccine } }) => (
-  <tr key={name}>
+  <tr>
     <td>{name}</td>
     <td className="td-center">
       {calculateAge(new Date(), new Date(birthdate))}

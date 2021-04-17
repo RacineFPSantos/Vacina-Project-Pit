@@ -133,6 +133,15 @@ input[type='email'] {
   margin-bottom: 20px;
 }
 
+.btn-submit {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+}
+
 /* Lista de Agendados */
 /* table */
 #customers {

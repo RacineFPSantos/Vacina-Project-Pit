@@ -36,6 +36,7 @@ const index = () => {
 
     try {
       await axios.post('/paciente', pacient);
+      // tell de user that the scheduling work perfect
     } catch (error) {
       console.log(error.message);
     }
@@ -75,7 +76,9 @@ const index = () => {
             maxTime={maxTime}
           />
 
-          <button type="submit">Submit</button>
+          <button type="submit" className="btn-submit">
+            Submit
+          </button>
         </Form>
       )}
     </Formik>
