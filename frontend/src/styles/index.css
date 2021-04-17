@@ -50,6 +50,12 @@ footer {
   width: 150px;
 }
 
+.btn-date {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+}
+
 /* Workaround for hide the disabled times from datePicker */
 .react-datepicker__time-list-item--disabled {
   display: none;
