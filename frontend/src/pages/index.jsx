@@ -1,26 +1,27 @@
 import React from 'react';
+import { Container, Button, ButtonGroup } from 'react-bootstrap';
 import Page from '../components/page';
 
 function Index({ history }) {
   return (
     <Page>
-      <div className="btn-group">
-        <button
-          type="button"
-          className="btn"
-          onClick={() => history.push('/agendar')}
-        >
-          Agendamento
-        </button>
-
-        <button
-          type="button"
-          className="btn"
-          onClick={() => history.push('/listaagendados')}
-        >
-          Enfermeiro
-        </button>
-      </div>
+      <Container className="d-flex justify-content-center align-items-center h-100">
+        <ButtonGroup size="lg" className="mr-5">
+          <Button
+            variant="primary"
+            className="mr-2"
+            onClick={() => history.push('/agendar')}
+          >
+            Agendamento
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => history.push('/listaagendados')}
+          >
+            Enfermeiro
+          </Button>
+        </ButtonGroup>
+      </Container>
     </Page>
   );
 }
