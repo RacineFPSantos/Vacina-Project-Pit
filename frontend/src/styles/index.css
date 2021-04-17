@@ -39,8 +39,18 @@ footer {
   color: red;
 }
 
-/* Home Btns */
-.btn {
+/* Custom Btns */
+.btn-home {
   width: 300px;
   height: 200px;
+}
+
+.btn-agendar {
+  margin-top: 1rem;
+  width: 150px;
+}
+
+/* Workaround for hide the disabled times from datePicker */
+.react-datepicker__time-list-item--disabled {
+  display: none;
 }

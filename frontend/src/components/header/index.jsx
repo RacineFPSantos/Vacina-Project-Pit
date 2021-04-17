@@ -1,10 +1,13 @@
 import React from 'react';
 import { Navbar } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Header = () => (
   <header>
     <Navbar bg="light">
-      <Navbar.Brand href="/">#VacinaSIM</Navbar.Brand>
+      <Link to="/">
+        <Navbar.Brand>#VacinaSIM</Navbar.Brand>
+      </Link>
     </Navbar>
   </header>
 );

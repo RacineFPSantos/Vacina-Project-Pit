@@ -2,6 +2,7 @@ import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 
+import { Row, Col } from 'react-bootstrap';
 import FormikControl from '../formikComponents/formikControl';
 import axios from '../../utils/api';
 import { formatDateForDatabase } from '../../utils/dateFormatter';
@@ -50,34 +51,58 @@ const index = () => {
     >
       {(formik) => (
         <Form>
-          <FormikControl control="input" type="text" label="Nome" name="name" />
+          <div className="mt-3 mb-3">
+            <h3>Informações Pessoais</h3>
+          </div>
 
-          <FormikControl
-            control="date"
-            label="Data de nascimento"
-            name="birthdate"
-            minDate={null}
-          />
+          <Row>
+            <Col>
+              <FormikControl
+                control="input"
+                type="text"
+                label="Nome"
+                name="name"
+              />
+            </Col>
+            <Col>
+              <FormikControl
+                control="date"
+                label="Data de nascimento"
+                name="birthdate"
+                minDate={null}
+              />
+            </Col>
+          </Row>
 
-          <FormikControl
-            control="date"
-            label="Data Vacinação"
-            name="dateVaccine"
-            minDate={new Date()}
-          />
-
-          <FormikControl
-            control="time"
-            label="Hora"
-            name="timeVaccine"
-            timeCaption="Horário"
-            timeIntervals={timeIntervals}
-            minTime={minTime}
-            maxTime={maxTime}
-          />
-
-          <button type="submit" className="btn-submit">
-            Submit
+          <div className="mt-3 mb-3">
+            <h3>Agendamento</h3>
+          </div>
+          <Row>
+            <Col>
+              <FormikControl
+                control="date"
+                label="Data Vacinação"
+                name="dateVaccine"
+                minDate={new Date()}
+              />
+            </Col>
+            <Col>
+              <FormikControl
+                control="time"
+                label="Hora"
+                name="timeVaccine"
+                timeCaption="Horário"
+                timeIntervals={timeIntervals}
+                minTime={minTime}
+                maxTime={maxTime}
+              />
+            </Col>
+          </Row>
+          <button
+            className="btn btn-primary btn-block btn-agendar"
+            type="submit"
+          >
+            Agendar
           </button>
         </Form>
       )}

@@ -1,19 +1,22 @@
 import React from 'react';
 import DateView from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import { Field, ErrorMessage } from 'formik';
 import brasizilianLocale from 'date-fns/locale/pt-BR';
+import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
 const DatePicker = ({ label, name, minDate, ...props }) => (
-  <div className="form-control">
-    <label htmlFor={name}>{label}</label>
+  <Form.Group>
+    <Form.Label>{label}</Form.Label>
+    <br />
     <Field name={name}>
       {({ form, field }) => {
         const { setFieldValue } = form;
         const { value } = field;
         return (
           <DateView
+            className="form-control"
             id={name}
             {...field}
             {...props}
@@ -26,12 +29,13 @@ const DatePicker = ({ label, name, minDate, ...props }) => (
             showYearDropdown
             dropdownMode="select"
             minDate={minDate}
+            autoComplete="off"
           />
         );
       }}
     </Field>
     <ErrorMessage name={name} component={TextError} />
-  </div>
+  </Form.Group>
 );
 
 export default DatePicker;

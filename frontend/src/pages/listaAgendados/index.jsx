@@ -5,12 +5,12 @@ import axios from '../../utils/api';
 import Table from '../../components/listPatient';
 
 const index = () => {
-  const [patientList, setPatientList] = useState([]);
+  const [patientsList, setPatientsList] = useState([]);
 
   const fetchData = async () => {
     try {
       const response = await axios.get('/paciente');
-      setPatientList(response.data);
+      setPatientsList(response.data);
     } catch (error) {
       console.log(error.message);
     }
@@ -23,7 +23,7 @@ const index = () => {
   return (
     <Page>
       <div>
-        <Table patientList={patientList} />
+        <Table patientsList={patientsList} />
       </div>
     </Page>
   );

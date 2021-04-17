@@ -5,6 +5,7 @@ import { Field, ErrorMessage } from 'formik';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import brasizilianLocale from 'date-fns/locale/pt-BR';
+import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
 const TimePicker = ({
@@ -16,14 +17,16 @@ const TimePicker = ({
   maxTime: { maxHour, maxMinutes },
   ...props
 }) => (
-  <div className="form-control">
-    <label htmlFor={name}>{label}</label>
+  <Form.Group>
+    <Form.Label>{label}</Form.Label>
+    <br />
     <Field name={name}>
       {({ form, field }) => {
         const { setFieldValue } = form;
         const { value } = field;
         return (
           <DateView
+            className="form-control"
             id={name}
             {...field}
             {...props}
@@ -38,12 +41,13 @@ const TimePicker = ({
             locale={brasizilianLocale}
             selected={value}
             onChange={(val) => setFieldValue(name, val)}
+            autoComplete="off"
           />
         );
       }}
     </Field>
     <ErrorMessage name={name} component={TextError} />
-  </div>
+  </Form.Group>
 );
 
 export default TimePicker;

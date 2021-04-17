@@ -9,13 +9,14 @@ function Index({ history }) {
         <ButtonGroup size="lg" className="mr-5">
           <Button
             variant="primary"
-            className="mr-2"
+            className="btn-home mr-2"
             onClick={() => history.push('/agendar')}
           >
             Agendamento
           </Button>
           <Button
             variant="secondary"
+            className="btn-home"
             onClick={() => history.push('/listaagendados')}
           >
             Enfermeiro
