@@ -10,7 +10,6 @@ const index = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('/paciente');
-      console.log(response);
       setPatientList(response.data);
     } catch (error) {
       console.log(error.message);

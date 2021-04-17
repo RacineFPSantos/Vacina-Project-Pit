@@ -6,7 +6,7 @@ import FormikControl from '../formikComponents/formikControl';
 import axios from '../../utils/api';
 import { formatDateForDatabase } from '../../utils/dateFormatter';
 
-const index = ({ history }) => {
+const index = () => {
   // Time configuration
   const minTime = { minHour: 7, minMinutes: 0 };
   const maxTime = { maxHour: 16, maxMinutes: 30 };
