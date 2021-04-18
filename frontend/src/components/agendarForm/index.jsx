@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import { Row, Col } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
 import FormikControl from '../formikComponents/formikControl';
 import axios from '../../utils/api';
-import { formatDateForDatabase } from '../../utils/dateFormatter';
+import { formatDate, formatTime } from '../../utils/dateFormatter';
 
 import Modal from '../modal';
 import PatientModal from './patientModal';
 
 const index = () => {
   const [show, setShow] = useState(false);
-  const [patient, setPatient] = useState({});
+  const [modalData, setModalData] = useState({});
 
   // Time configuration
   const minTime = { minHour: 7, minMinutes: 0 };
@@ -34,15 +35,17 @@ const index = () => {
   });
 
   const onSubmit = async ({ name, birthdate, dateVaccine, timeVaccine }) => {
-    setPatient({
+    const patient = {
+      id: uuidv4(),
       name,
-      birthdate,
-      dateVaccine: formatDateForDatabase(dateVaccine, timeVaccine),
-    });
+      birthdate: formatDate(birthdate),
+      dateVaccine: formatDate(dateVaccine),
+      timeVaccine: formatTime(timeVaccine),
+    };
 
+    setModalData(patient);
     try {
       await axios.post('/paciente', patient);
-      // tell de user that the scheduling work perfect
       setShow(true);
     } catch (error) {
       console.log(error.message);
@@ -52,7 +55,7 @@ const index = () => {
   return (
     <>
       <Modal show={show} setShow={setShow} title="Agendamento com sucesso">
-        <PatientModal patient={patient} />
+        <PatientModal modalData={modalData} />
       </Modal>
       <Formik
         initialValues={initialValues}
