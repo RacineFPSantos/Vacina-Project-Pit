@@ -2,7 +2,9 @@ const dbController = require('../database/dbController');
 
 class PatientController {
   index(req, res) {
-    res.send(database); 
+    const param = req.query.date
+    const data = dbController.getData(param);
+    res.send({ data });
   }
 
   store(req, res) {  

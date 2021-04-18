@@ -1,19 +1,13 @@
 import React from 'react';
 
-import {
-  formatDate,
-  formatTime,
-  calculateAge,
-} from '../../utils/dateFormatter';
-
-const Patient = ({ patient: { name, birthdate, dateVaccine } }) => (
+const Patient = ({
+  patient: { name, birthdate, dateVaccine, timeVaccine },
+}) => (
   <tr>
     <td>{name}</td>
-    <td className="td-center">
-      {calculateAge(new Date(), new Date(birthdate))}
-    </td>
-    <td>{formatDate(new Date(dateVaccine))}</td>
-    <td>{formatTime(new Date(dateVaccine))}</td>
+    <td className="td-center">{birthdate}</td>
+    <td>{dateVaccine}</td>
+    <td>{timeVaccine}</td>
     <td>
       <button type="button">Editar</button>
     </td>
