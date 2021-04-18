@@ -1,14 +1,13 @@
-const database = require('../database/db');
+const dbController = require('../database/dbController');
 
 class PatientController {
   index(req, res) {
     res.send(database); 
   }
 
-  store(req, res) {
-    console.log(req.body);
-
-    // database.push(req.body);
+  store(req, res) {  
+    const data = req.body;
+    dbController.addNewScheduling(data);    
     res.send({ message: "Agendado com sucesso " });
   }  
 }
