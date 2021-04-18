@@ -11,7 +11,7 @@ const index = () => {
 
   const patientsOfTheDay = (date) => {
     if (patientsList === null) {
-      console.log('Check before');
+      console.log('Error');
     }
 
     const otherDate = format(date, 'MM-dd-yy');
@@ -52,7 +52,7 @@ const index = () => {
             Amanha
           </button>
         </div>
-        <Table currentList={currentList} trigger={patientsOfTheDay} />
+        <Table currentList={currentList} />
       </div>
     </Page>
   );
