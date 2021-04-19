@@ -52,7 +52,7 @@ const index = () => {
       </Modal>
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema}
+        validationSchema={validationSchema(minTime.minHour, maxTime.maxHour)}
         onSubmit={onSubmit}
       >
         {(formik) => (
