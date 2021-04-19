@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
-import { Row, Col } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
-import FormikControl from '../formikComponents/formikControl';
+import { Row, Col } from 'react-bootstrap';
 import axios from '../../utils/api';
-import { formatDate, formatTime } from '../../utils/dateFormatter';
 
+import FormikControl from '../formikComponents/formikControl';
 import Modal from '../modal';
 import PatientModal from './patientModal';
+import { formatDate, formatTime } from '../../utils/dateFormatter';
+import validationSchema from '../../validation/agendarFormValidation';
 
 const index = () => {
   const [show, setShow] = useState(false);
@@ -26,13 +26,6 @@ const index = () => {
     dateVaccine: null,
     timeVaccine: null,
   };
-
-  const validationSchema = Yup.object({
-    name: Yup.string().required('Preencha esse dado.'),
-    birthdate: Yup.date().required('Preencha esse dado.').nullable(),
-    dateVaccine: Yup.date().required('Preencha esse dado.').nullable(),
-    timeVaccine: Yup.string().required('Preencha esse dado.').nullable(),
-  });
 
   const onSubmit = async ({ name, birthdate, dateVaccine, timeVaccine }) => {
     const patient = {
