@@ -9,28 +9,13 @@ const index = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentList, setCurrentList] = useState([]);
 
-  const getToday = () => new Date();
+  const fetchData = async () => {
+    const newDate = format(currentDate, 'dd/MM/yyyy');
 
-  const getTomorrow = (_currentDate) => {
-    const tomorrow = new Date(_currentDate);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-  };
-
-  const getYesterday = (_currentDate) => {
-    const tomorrow = new Date(_currentDate);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-  };
-
-  const setPatientsList = (date) => {
-    setCurrentDate(date);
-    return format(new Date(), 'dd/MM/yyy');
-  };
-
-  const fetchData = async (_date) => {
     try {
       const response = await axios.get('/paciente', {
         params: {
-          date: _date,
+          date: newDate,
         },
       });
 
@@ -40,27 +25,33 @@ const index = () => {
     }
   };
 
+  const getTomorrow = () => {
+    const tomorrow = new Date(currentDate);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    setCurrentDate(tomorrow);
+  };
+
+  const getYesterday = () => {
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(yesterday.getDate() - 1);
+    setCurrentDate(yesterday);
+  };
+
   useEffect(() => {
-    fetchData(setPatientsList(new Date()));
-  }, []);
+    fetchData();
+  }, [currentDate]);
 
   return (
     <Page>
       <div>
         <div className="btn-date">
-          <button
-            type="button"
-            onClick={() => setPatientsList(getYesterday(currentDate))}
-          >
+          <button type="button" onClick={() => getYesterday()}>
             Ontem
           </button>
-          <button type="button" onClick={() => setPatientsList(getToday())}>
+          <button type="button" onClick={() => setCurrentDate(new Date())}>
             Hoje
           </button>
-          <button
-            type="button"
-            onClick={() => setPatientsList(getTomorrow(currentDate))}
-          >
+          <button type="button" onClick={() => getTomorrow()}>
             Amanha
           </button>
         </div>

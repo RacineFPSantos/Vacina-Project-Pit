@@ -23,7 +23,9 @@ const index = ({ currentList = [] }) => (
         </tbody>
       </Table>
     ) : (
-      <h1>Não existe ninguem agendado</h1>
+      <div className="text-center mt-4">
+        <h1>Não existe ninguem agendado</h1>
+      </div>
     )}
   </>
 );
