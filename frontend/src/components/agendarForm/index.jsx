@@ -5,10 +5,10 @@ import { Row, Col } from 'react-bootstrap';
 import axios from '../../utils/api';
 
 import FormikControl from '../formikComponents/formikControl';
-import Modal from '../modal';
-import PatientModal from './patientModal';
 import { formatDate, formatTime } from '../../utils/dateFormatter';
 import validationSchema from '../../validation/agendarFormValidation';
+
+import ConfirmationModal from '../modals/confirmationModal';
 
 const index = () => {
   const [show, setShow] = useState(false);
@@ -46,10 +46,8 @@ const index = () => {
   };
 
   return (
-    <>
-      <Modal show={show} setShow={setShow} title="Agendamento com sucesso">
-        <PatientModal modalData={modalData} />
-      </Modal>
+    <div>
+      <ConfirmationModal show={show} setShow={setShow} modalData={modalData} />
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema(minTime.minHour, maxTime.maxHour)}
@@ -113,7 +111,7 @@ const index = () => {
           </Form>
         )}
       </Formik>
-    </>
+    </div>
   );
 };
 
