@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { format } from 'date-fns';
+import { toast } from 'react-toastify';
 import Page from '../../components/page';
 import axios from '../../utils/api';
 
@@ -8,6 +9,16 @@ import Table from '../../components/listPatient';
 const index = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentList, setCurrentList] = useState([]);
+
+  const toastOptions = {
+    position: 'top-right',
+    autoClose: 3000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  };
 
   const fetchData = async () => {
     const newDate = format(currentDate, 'dd/MM/yyyy');
@@ -18,6 +29,8 @@ const index = () => {
           date: newDate,
         },
       });
+
+      toast.info(response.data.data.message, { ...toastOptions });
 
       setCurrentList(response.data.data);
     } catch (error) {
