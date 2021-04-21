@@ -18,7 +18,7 @@ const index = ({ currentList = [] }) => (
         </thead>
         <tbody>
           {currentList.map((patient) => (
-            <Patient key={patient.name} patient={patient} />
+            <Patient key={patient.id} patient={patient} />
           ))}
         </tbody>
       </Table>
