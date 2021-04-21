@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
 import { Row, Col } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import axios from '../../utils/api';
 
 import FormikControl from '../formikComponents/formikControl';
@@ -18,6 +19,17 @@ const index = () => {
   const minTime = { minHour: 7, minMinutes: 0 };
   const maxTime = { maxHour: 16, maxMinutes: 30 };
   const timeIntervals = 30;
+
+  // Toast Options
+  const toastOptions = {
+    position: 'top-right',
+    autoClose: 5000,
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: false,
+    draggable: true,
+    progress: undefined,
+  };
 
   // Formik
   const initialValues = {
@@ -37,11 +49,17 @@ const index = () => {
     };
 
     setModalData(patient);
+
     try {
-      await axios.post('/paciente', patient);
+      await axios.post('/paciente', patient).catch((err) => {
+        if (err.response.status === 409) {
+          throw new Error(err.response.data.error);
+        }
+        throw err;
+      });
       setShow(true);
-    } catch (error) {
-      console.log(error.message);
+    } catch (err) {
+      toast.error(err.message, { ...toastOptions });
     }
   };
 
