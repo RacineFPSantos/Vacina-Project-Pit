@@ -1,6 +1,8 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 
+import PatientDetailsForm from '../forms/patientDetailsForm';
+
 const patientDetailsModal = ({ state: { show, setShow }, modalData = {} }) => {
   const onClose = () => {
     setShow(false);
@@ -9,12 +11,10 @@ const patientDetailsModal = ({ state: { show, setShow }, modalData = {} }) => {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton onClick={onClose}>
-        <Modal.Title>Modal</Modal.Title>
+        <Modal.Title>{modalData.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <div>
-          <h3>Nome: {modalData.name}</h3>
-        </div>
+        <PatientDetailsForm modalData={modalData} />
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={onClose}>Fechar</Button>

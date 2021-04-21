@@ -1,8 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import Page from '../../components/page';
-
-import Form from '../../components/agendarForm';
+import Form from '../../components/forms/agendarForm';
 
 const index = () => (
   <Page>
