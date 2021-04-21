@@ -1,7 +1,8 @@
 import React from 'react';
 
 const Patient = ({
-  patient: { name, birthdate, dateVaccine, timeVaccine },
+  patient: { id, name, birthdate, dateVaccine, timeVaccine },
+  editPatient,
 }) => (
   <>
     <tr>
@@ -10,7 +11,12 @@ const Patient = ({
       <td>{dateVaccine}</td>
       <td>{timeVaccine}</td>
       <td>
-        <button type="button" onClick={() => {}}>
+        <button
+          type="button"
+          onClick={() => {
+            editPatient(id);
+          }}
+        >
           Editar
         </button>
       </td>

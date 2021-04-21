@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
 import Page from '../../components/page';
 import axios from '../../utils/api';
 
 import Table from '../../components/listPatient';
+import { PatientListContext } from '../../context/patientListContext';
 
 const index = () => {
+  const { setPatientsList } = useContext(PatientListContext);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentList, setCurrentList] = useState([]);
 
   const toastOptions = {
     position: 'top-right',
@@ -32,9 +33,9 @@ const index = () => {
 
       toast.info(response.data.data.message, { ...toastOptions });
 
-      setCurrentList(response.data.data);
+      setPatientsList(response.data.data);
     } catch (error) {
-      console.log(error.message);
+      toast.info(error.message, { ...toastOptions });
     }
   };
 
@@ -68,7 +69,7 @@ const index = () => {
             Amanha
           </button>
         </div>
-        <Table currentList={currentList} />
+        <Table />
       </div>
     </Page>
   );
