@@ -53,7 +53,7 @@ const addDay = (dates, yearIndex, _patient) => {
           throw new Error('Uma pessoa idosa já oculpa a vaga, tente outro horário!');          
         }
 
-        if(getAge(_patient.birthdate) < getAge(patient.birthdate)){
+        if(getAge(_patient.birthdate) <= getAge(patient.birthdate)){
           throw new Error('Horário já foi agendado, tente outro horário');  
         }     
       } 
