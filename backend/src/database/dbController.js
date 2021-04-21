@@ -1,56 +1,36 @@
-const dbYear = [ '2021' ];
-const dbMonth = [ { } ];
+const { 
+  formatDateSplit, 
+  isEmpty, 
+  hasIn, 
+  getAge 
+} = require('../utils/utils');
+
+const dbYear = [];
+const dbMonth = [];
 
 const EmptyArray = -1;
 const idoso = 65;
 
-const formatDateSplit = (dateVaccine) => {
-  const arraySplit = dateVaccine.split('/');
-  const date = {
-    day: arraySplit[0],
-    month: arraySplit[1],
-    year: arraySplit[2],
-  }
-
-  return date;
+const createNewMonthToArray = (month, index) => {  
+  let object = {};
+  object[month] = { };
+  Object.assign(dbMonth[index], object);
 }
 
-const isEmptyOrUndefined = (array) => {
-  return (typeof array === 'undefined' && array.length < 0)
-}
-
-const hasIn = (elementToFind, setToFind) => {
-  try {
-    return (elementToFind in setToFind);
-  } catch (error) {
-    console.log(error.message);
-    return null;
-  }
-}
-
-const getAge = (date) => {
-  var from = date.split("/");
-  var birthdateTimeStamp = new Date(from[2], from[1] - 1, from[0]);
-  var cur = new Date();
-  var diff = cur - birthdateTimeStamp;
-  var currentAge = Math.floor(diff/31557600000);
-  
- return currentAge;
+const createNewDayToArray = (dates, yearIndex, _patient) => {
+  let object = {};
+  object[dates.day] = [{ ..._patient }];
+  Object.assign(dbMonth[yearIndex][dates.month], object); 
 }
 
 const addMonth = (dates, yearIndex, patient) => {
-  if (isEmptyOrUndefined(dbMonth)) {
-    if(dates.month in dbMonth[yearIndex]){
-      console.log("Month aready exists")
-    }else {
-      let object = {};
-      object[dates.month] = { };
-      Object.assign(dbMonth[yearIndex], object);
-    }
-
-  }else {
-    console.log("Undefined or Empty")
+  if(isEmpty(dbMonth)){
+    dbMonth.push({});
   }
+
+  if(!(dates.month in dbMonth[yearIndex])){
+    createNewMonthToArray(dates.month, yearIndex);
+  } 
 
   return addDay(dates, yearIndex, patient);
 }
@@ -65,7 +45,9 @@ const addDay = (dates, yearIndex, _patient) => {
       if(!exist){
         dbMonth[yearIndex][dates.month][dates.day].push( _patient);        
       }else {
-        let patient = dbMonth[yearIndex][dates.month][dates.day].find((patient) => (patient.timeVaccine === _patient.timeVaccine));
+        let patient = dbMonth[yearIndex][dates.month][dates.day].find(
+          (patient) => (patient.timeVaccine === _patient.timeVaccine)
+        );
   
         if( getAge(patient.birthdate) >= idoso){
           throw new Error('Uma pessoa idosa já oculpa a vaga, tente outro horário!');          
@@ -76,25 +58,22 @@ const addDay = (dates, yearIndex, _patient) => {
         }     
       } 
     }else{
-      let object = {};
-      object[dates.day] = [{ ..._patient }];
-      Object.assign(dbMonth[yearIndex][dates.month], object); 
-      console.log("Esse aqui é o que? ")
+      createNewDayToArray(dates, yearIndex, _patient);
     } 
   } catch (error) {
     return { status: 409 , message : error.message }
   }  
-
-  return { status: 200 , message : "Agendado com sucesso" }
+  
+  return { status: 200 , message : 'Agendado com sucesso' }
 }
 
 class databaseController {
   addNewScheduling(patient) {  
     const dates = formatDateSplit(patient.dateVaccine);
-    const yearIndex = dbYear.indexOf(dates.year);
+    let yearIndex = dbYear.indexOf(dates.year);
 
     if(yearIndex === EmptyArray) {
-      dbYear.push(year);
+      yearIndex = dbYear.push(dates.year) - 1;
     }
 
     return addMonth(dates, yearIndex, patient);
@@ -102,25 +81,30 @@ class databaseController {
 
   getData(date){
     const dates = formatDateSplit(date);   
-    const yearIndex = dbYear.indexOf(dates.year);
+    let yearIndex = dbYear.indexOf(dates.year);
 
-    if(!(dbMonth[yearIndex] === EmptyArray)) {
-      if(!isEmptyOrUndefined(dbMonth)){
-        if(hasIn(dates.day, dbMonth[yearIndex][dates.month])){
-          return dbMonth[yearIndex][dates.month][dates.day];
-        }else {
-          console.log("Não existe dia");
-        }
-      }else{
-        console.log("Não existe mes");
+    try {
+      if(yearIndex === EmptyArray){
+        throw new Error('Nenhum agendamento para esse ano encontrado'); 
       }
-    }else {
-      console.log("Não existe ano");
-    }  
+
+      if(isEmpty(dbMonth)){
+        throw new Error('Nenhum agendamento para esse mês encontrado'); 
+      }
+
+      if(hasIn(dates.day, dbMonth[yearIndex][dates.month])){
+        return dbMonth[yearIndex][dates.month][dates.day];
+      }else{
+        throw new Error('Nenhum agendamento para esse dia encontrado'); 
+      }
+      
+    }catch(error){
+      return { 
+        status: 200, 
+        message : error.message
+      }
+    }
   }
 }
 
 module.exports = new databaseController();
-
-
-
