@@ -9,8 +9,8 @@ class PatientController {
 
   store(req, res) {  
     const data = req.body;
-    dbController.addNewScheduling(data);    
-    res.send({ message: "Agendado com sucesso " });
+    const result = dbController.addNewScheduling(data);
+    res.status(result.status).json({ error: result.message})
   }  
 }
 

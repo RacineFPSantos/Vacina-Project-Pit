@@ -1,58 +1,8 @@
 const dbYear = [ '2021' ];
-const dbMonth = [ 
-  { 
-    '04': { 
-      '18': [
-        {
-          id: 'f4215b37-bff0-452d-8715-364cfec45360',
-          name: 'Lux',
-          birthdate: '01/04/2021',
-          dateVaccine: '18/04/2021',
-          timeVaccine: '13:30'
-        },
-        {
-          id: 'f4215b37-bff0-452d-8715-364cfec45360',
-          name: 'Morgana',
-          birthdate: '01/04/2021',
-          dateVaccine: '18/04/2021',
-          timeVaccine: '10:30'
-        },
-        {
-          id: 'f4215b37-bff0-452d-8715-364cfec45360',
-          name: 'Nasus',
-          birthdate: '01/04/2021',
-          dateVaccine: '18/04/2021',
-          timeVaccine: '08:30'
-        }
-      ],
-      '19': [
-        {
-        id: 'f4215b37-bff0-452d-8715-364cfec45360',
-        name: 'Miss Fortune',
-        birthdate: '01/04/2021',
-        dateVaccine: '19/04/2021',
-        timeVaccine: '07:00'
-        },
-        {
-        id: 'f4215b37-bff0-452d-8715-364cfec45360',
-        name: 'Amumu',
-        birthdate: '01/04/2021',
-        dateVaccine: '19/04/2021',
-        timeVaccine: '07:30'
-        },
-        {
-        id: 'f4215b37-bff0-452d-8715-364cfec45360',
-        name: 'Aurelion Sol',
-        birthdate: '01/04/2021',
-        dateVaccine: '19/04/2021',
-        timeVaccine: '16:30'
-        }
-      ]
-    }  
-  } 
-];
+const dbMonth = [ { } ];
 
 const EmptyArray = -1;
+const idoso = 65;
 
 const formatDateSplit = (dateVaccine) => {
   const arraySplit = dateVaccine.split('/');
@@ -76,7 +26,17 @@ const hasIn = (elementToFind, setToFind) => {
     console.log(error.message);
     return null;
   }
-} 
+}
+
+const getAge = (date) => {
+  var from = date.split("/");
+  var birthdateTimeStamp = new Date(from[2], from[1] - 1, from[0]);
+  var cur = new Date();
+  var diff = cur - birthdateTimeStamp;
+  var currentAge = Math.floor(diff/31557600000);
+  
+ return currentAge;
+}
 
 const addMonth = (dates, yearIndex, patient) => {
   if (isEmptyOrUndefined(dbMonth)) {
@@ -92,31 +52,40 @@ const addMonth = (dates, yearIndex, patient) => {
     console.log("Undefined or Empty")
   }
 
-  addDay(dates, yearIndex, patient);
+  return addDay(dates, yearIndex, patient);
 }
 
 const addDay = (dates, yearIndex, _patient) => {
-  if(dates.day in dbMonth[yearIndex][dates.month]) {  
+  try {
+    if(dates.day in dbMonth[yearIndex][dates.month]) {  
+      const exist = dbMonth[yearIndex][dates.month][dates.day].some(
+        (patient) => (patient.timeVaccine === _patient.timeVaccine)
+      );
+  
+      if(!exist){
+        dbMonth[yearIndex][dates.month][dates.day].push( _patient);        
+      }else {
+        let patient = dbMonth[yearIndex][dates.month][dates.day].find((patient) => (patient.timeVaccine === _patient.timeVaccine));
+  
+        if( getAge(patient.birthdate) >= idoso){
+          throw new Error('Uma pessoa idosa já oculpa a vaga, tente outro horário!');          
+        }
 
-    const exist = dbMonth[yearIndex][dates.month][dates.day].some(
-      (patient) => (patient.timeVaccine === _patient.timeVaccine)
-    );
+        if(getAge(_patient.birthdate) < getAge(patient.birthdate)){
+          throw new Error('Horário já foi agendado, tente outro horário');  
+        }     
+      } 
+    }else{
+      let object = {};
+      object[dates.day] = [{ ..._patient }];
+      Object.assign(dbMonth[yearIndex][dates.month], object); 
+      console.log("Esse aqui é o que? ")
+    } 
+  } catch (error) {
+    return { status: 409 , message : error.message }
+  }  
 
-    if(!exist){
-      dbMonth[yearIndex][dates.month][dates.day].push( _patient);
-    }else {
-      /* 
-        return error.message{"Horario já foi tomado"} 
-        retorna os horarios disponiveis;
-      */
-      console.log("Horario já foi reservado");
-    }
- 
-  }else{
-    let object = {};
-    object[dates.day] = [{ ..._patient }];
-    Object.assign(dbMonth[yearIndex][dates.month], object);   
-  } 
+  return { status: 200 , message : "Agendado com sucesso" }
 }
 
 class databaseController {
@@ -128,9 +97,7 @@ class databaseController {
       dbYear.push(year);
     }
 
-    addMonth(dates, yearIndex, patient);
-
-    console.log(dbMonth[0][dates.month][dates.day])
+    return addMonth(dates, yearIndex, patient);
   }
 
   getData(date){
