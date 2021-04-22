@@ -6,20 +6,11 @@ import axios from '../../utils/api';
 
 import Table from '../../components/listPatient';
 import { PatientListContext } from '../../context/patientListContext';
+import { toastOptions } from '../../utils/toastOptions';
 
 const index = () => {
   const { setPatientsList } = useContext(PatientListContext);
   const [currentDate, setCurrentDate] = useState(new Date());
-
-  const toastOptions = {
-    position: 'top-right',
-    autoClose: 3000,
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: false,
-    draggable: true,
-    progress: undefined,
-  };
 
   const fetchData = async () => {
     const newDate = format(currentDate, 'dd/MM/yyyy');
