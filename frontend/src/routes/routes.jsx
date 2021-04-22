@@ -8,7 +8,7 @@ import Home from '../pages';
 import Agendar from '../pages/agendar';
 import ListaAgendados from '../pages/listaAgendados';
 
-import { PatientListContext } from '../context/patientListContext';
+import { PatientsListContext } from '../context/patientsListContext';
 
 const Routes = () => {
   const [patientsList, setPatientsList] = useState([]);
@@ -19,11 +19,11 @@ const Routes = () => {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/agendar" component={Agendar} />
-          <PatientListContext.Provider
+          <PatientsListContext.Provider
             value={{ patientsList, setPatientsList }}
           >
             <Route exact path="/listaagendados" component={ListaAgendados} />
-          </PatientListContext.Provider>
+          </PatientsListContext.Provider>
         </Switch>
         <Footer />
       </div>

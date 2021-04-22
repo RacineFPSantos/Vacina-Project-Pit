@@ -5,11 +5,11 @@ import Page from '../../components/page';
 import axios from '../../utils/api';
 
 import Table from '../../components/listPatient';
-import { PatientListContext } from '../../context/patientListContext';
+import { PatientsListContext } from '../../context/patientsListContext';
 import { toastOptions } from '../../utils/toastOptions';
 
 const index = () => {
-  const { setPatientsList } = useContext(PatientListContext);
+  const { setPatientsList } = useContext(PatientsListContext);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const fetchData = async () => {
