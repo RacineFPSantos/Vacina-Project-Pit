@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Table } from 'react-bootstrap';
 
-import { PatientListContext } from '../../context/patientListContext';
+import { PatientsListContext } from '../../context/patientsListContext';
 
 import Patient from './patient';
 import PatientDetailsModal from '../modals/patientDetailsModal';
@@ -9,7 +9,7 @@ import PatientDetailsModal from '../modals/patientDetailsModal';
 const index = () => {
   const [show, setShow] = useState(false);
   const [modalData, setModalData] = useState();
-  const { patientsList } = useContext(PatientListContext);
+  const { patientsList } = useContext(PatientsListContext);
 
   const editPatient = (_id) => {
     const patient = patientsList.find((_patient) => _patient.id === _id);

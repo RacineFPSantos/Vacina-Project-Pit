@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Formik, Form } from 'formik';
 import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import FormikControl from '../formikComponents/formikControl';
+import { PatientsListContext } from '../../context/patientsListContext';
 
 import axios from '../../utils/api';
+import { toastOptions } from '../../utils/toastOptions';
 
 const patientDetailsForm = ({ modalData = {}, onClose }) => {
+  const { patientsList, setPatientsList } = useContext(PatientsListContext);
+
   const initialValues = {
     id: modalData.id,
     name: modalData.name,
@@ -17,8 +22,18 @@ const patientDetailsForm = ({ modalData = {}, onClose }) => {
   };
 
   const onSubmit = async (values) => {
-    const res = await axios.put(`/paciente`, { ...values });
-    console.log(res);
+    try {
+      await axios.put(`/paciente`, { ...values }).then(() => {
+        const newPatientList = patientsList.map((patient) =>
+          patient.id === values.id ? { ...patient, ...values } : patient,
+        );
+
+        setPatientsList(newPatientList);
+      });
+    } catch (error) {
+      toast.info(error.message, { ...toastOptions });
+    }
+
     onClose();
   };
 
