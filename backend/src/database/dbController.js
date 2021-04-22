@@ -105,6 +105,25 @@ class databaseController {
       }
     }
   }
+
+  updateData(_patient) {
+    try {
+      const dates = formatDateSplit(_patient.dateVaccine);   
+      const yearIndex = dbYear.indexOf(dates.year);
+
+      const dayScheduleList = this.getData(_patient.dateVaccine);
+      const OldPatientIndex = dayScheduleList.findIndex((patient) => patient.id === _patient.id);
+      
+      dbMonth[yearIndex][dates.month][dates.day][OldPatientIndex] = { ... _patient}   
+    }catch(error){
+      return { 
+        status: 200, 
+        message : error.message
+      }
+    }
+ 
+    return { status: 200, message : "Atualizado com sucesso" }
+  }
 }
 
 module.exports = new databaseController();

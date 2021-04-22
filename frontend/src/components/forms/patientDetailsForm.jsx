@@ -12,12 +12,14 @@ const patientDetailsForm = ({ modalData = {}, onClose }) => {
     birthdate: modalData.birthdate,
     dateVaccine: modalData.dateVaccine,
     timeVaccine: modalData.timeVaccine,
+    hasVaccinated: modalData.hasVaccinated,
     description: '',
-    hasVaccinated: false,
   };
 
   const onSubmit = async (values) => {
-    const res = await axios.put(`/paciente/${values.id}`, { ...values });
+    const res = await axios.put(`/paciente`, { ...values });
+    console.log(res);
+    onClose();
   };
 
   return (
@@ -26,43 +28,19 @@ const patientDetailsForm = ({ modalData = {}, onClose }) => {
         {(formik) => (
           <Form>
             <Row>
-              <Col>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Nome"
-                  name="name"
-                />
-              </Col>
-              <Col>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="Data de nascimento"
-                  name="birthdate"
-                />
-              </Col>
+              <Col>Nome: {formik.values.name}</Col>
             </Row>
             <Row>
-              <Col>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="data da vacina"
-                  name="dateVaccine"
-                />
-              </Col>
-              <Col>
-                <FormikControl
-                  control="input"
-                  type="text"
-                  label="horário da vacina"
-                  name="timeVaccine"
-                />
-              </Col>
+              <Col>Data de Nascimento: {formik.values.birthdate}</Col>
             </Row>
             <Row>
-              <Col>
+              <Col>Data da vacinação: {formik.values.dateVaccine}</Col>
+            </Row>
+            <Row>
+              <Col>Horario: {formik.values.timeVaccine}</Col>
+            </Row>
+            <Row>
+              <Col className="mt-2 d-flex align-items-center">
                 <FormikControl
                   control="checkbox"
                   label="Vacinado"

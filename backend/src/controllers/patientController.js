@@ -1,17 +1,24 @@
 const dbController = require('../database/dbController');
 
 class PatientController {
-  index(req, res) {
+  async index(req, res) {
     const param = req.query.date
-    const data = dbController.getData(param);
+    const data = await dbController.getData(param);
     res.send({ data });
   }
 
-  store(req, res) {  
+  async store(req, res) {  
     const data = req.body;
-    const result = dbController.addNewScheduling(data);
-    res.status(result.status).json({ error: result.message})
+    const result = await dbController.addNewScheduling(data);
+    res.status(result.status).json({ message: result.message})
   }  
+
+  async update(req, res) {
+    const data = req.body;
+    const result = await dbController.updateData(data);
+
+    res.status(result.status).json({ message: result.message})
+  }
 }
 
 module.exports = new PatientController();

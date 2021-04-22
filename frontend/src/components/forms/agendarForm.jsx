@@ -46,6 +46,7 @@ const index = () => {
       birthdate: formatDate(birthdate),
       dateVaccine: formatDate(dateVaccine),
       timeVaccine: formatTime(timeVaccine),
+      hasVaccinated: false,
     };
 
     setModalData(patient);
