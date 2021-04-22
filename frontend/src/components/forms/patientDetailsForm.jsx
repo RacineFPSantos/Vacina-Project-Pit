@@ -1,10 +1,13 @@
 import React from 'react';
-import { Formik } from 'formik';
-import { Row, Col } from 'react-bootstrap';
+import { Formik, Form } from 'formik';
+import { Row, Col, Button, ButtonGroup } from 'react-bootstrap';
 import FormikControl from '../formikComponents/formikControl';
 
-const patientDetailsForm = ({ modalData = {} }) => {
+import axios from '../../utils/api';
+
+const patientDetailsForm = ({ modalData = {}, onClose }) => {
   const initialValues = {
+    id: modalData.id,
     name: modalData.name,
     birthdate: modalData.birthdate,
     dateVaccine: modalData.dateVaccine,
@@ -13,19 +16,15 @@ const patientDetailsForm = ({ modalData = {} }) => {
     hasVaccinated: false,
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (values) => {
+    const res = await axios.put(`/paciente/${values.id}`, { ...values });
   };
 
   return (
     <div>
       <Formik initialValues={initialValues} onSubmit={onSubmit}>
         {(formik) => (
-          <div>
-            <div className="mt-2 mb-2">
-              <h5>Informações Pessoais</h5>
-            </div>
-
+          <Form>
             <Row>
               <Col>
                 <FormikControl
@@ -39,21 +38,17 @@ const patientDetailsForm = ({ modalData = {} }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label="Nome"
+                  label="Data de nascimento"
                   name="birthdate"
                 />
               </Col>
             </Row>
-
-            <div className="mt-2 mb-2">
-              <h5>Agendamento</h5>
-            </div>
             <Row>
               <Col>
                 <FormikControl
                   control="input"
                   type="text"
-                  label="Nome"
+                  label="data da vacina"
                   name="dateVaccine"
                 />
               </Col>
@@ -61,8 +56,17 @@ const patientDetailsForm = ({ modalData = {} }) => {
                 <FormikControl
                   control="input"
                   type="text"
-                  label="Nome"
+                  label="horário da vacina"
                   name="timeVaccine"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <FormikControl
+                  control="checkbox"
+                  label="Vacinado"
+                  name="hasVaccinated"
                 />
               </Col>
             </Row>
@@ -75,7 +79,19 @@ const patientDetailsForm = ({ modalData = {} }) => {
                 />
               </Col>
             </Row>
-          </div>
+            <Row>
+              <Col>
+                <ButtonGroup className="float-right btn-block">
+                  <Button variant="secondary" onClick={() => onClose()}>
+                    Fechar
+                  </Button>
+                  <Button type="submit" variant="primary" className="ml-2">
+                    Salvar
+                  </Button>
+                </ButtonGroup>
+              </Col>
+            </Row>
+          </Form>
         )}
       </Formik>
     </div>

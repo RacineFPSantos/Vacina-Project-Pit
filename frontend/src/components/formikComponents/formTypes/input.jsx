@@ -5,14 +5,16 @@ import TextError from '../../textError';
 
 const Input = ({ label, name, ...props }) => (
   <Form.Group>
-    <Form.Label>{label}</Form.Label>
-    <Field
-      className="form-control"
-      id={name}
-      name={name}
-      {...props}
-      autoComplete="off"
-    />
+    <Form.Label>
+      {label}
+      <Field
+        className="form-control"
+        id={name}
+        name={name}
+        {...props}
+        autoComplete="off"
+      />
+    </Form.Label>
     <ErrorMessage name={name} component={TextError} />
   </Form.Group>
 );

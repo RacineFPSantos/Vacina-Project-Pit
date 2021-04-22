@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 
 import PatientDetailsForm from '../forms/patientDetailsForm';
 
@@ -11,14 +11,11 @@ const patientDetailsModal = ({ state: { show, setShow }, modalData = {} }) => {
   return (
     <Modal show={show} onHide={onClose}>
       <Modal.Header closeButton onClick={onClose}>
-        <Modal.Title>{modalData.name}</Modal.Title>
+        <Modal.Title>Paciente</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <PatientDetailsForm modalData={modalData} />
+        <PatientDetailsForm modalData={modalData} onClose={onClose} />
       </Modal.Body>
-      <Modal.Footer>
-        <Button onClick={onClose}>Fechar</Button>
-      </Modal.Footer>
     </Modal>
   );
 };
