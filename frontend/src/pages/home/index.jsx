@@ -8,6 +8,7 @@ function Index({ history }) {
       <Container className="d-flex justify-content-center align-items-center h-100">
         <ButtonGroup size="lg" className="mr-5">
           <Button
+            title="agendar-btn"
             variant="primary"
             className="btn-home mr-2"
             onClick={() => history.push('/agendar')}
@@ -15,6 +16,8 @@ function Index({ history }) {
             Agendamento
           </Button>
           <Button
+            data-testid="enfermeiro"
+            title="enfermeiro-btn"
             variant="secondary"
             className="btn-home"
             onClick={() => history.push('/listaagendados')}
