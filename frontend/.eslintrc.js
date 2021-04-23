@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    jest: true,
   },
   extends: ['plugin:react/recommended', 'airbnb', 'prettier'],
   parser: 'babel-eslint',
@@ -12,7 +13,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', 'prettier'],
+  plugins: ['react', 'prettier', 'react-hooks', 'testing-library'],
   rules: {
     'no-unused-vars': 'warn',
     'prettier/prettier': 'error',
@@ -21,4 +22,10 @@ module.exports = {
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
   },
+  overrides: [
+    {
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)'],
+      extends: ['plugin:testing-library/react'],
+    },
+  ],
 };
