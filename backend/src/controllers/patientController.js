@@ -20,8 +20,6 @@ class PatientController {
   }
 
   async updateData(req, res) {
-    console.log(req.body);
-
     const date = req.body.date;
     const patientsList = req.body.patientsList;
     const result = await dbController.updateData(date, patientsList);

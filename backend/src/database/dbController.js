@@ -128,9 +128,10 @@ class databaseController {
   updateData(date, _patientsList) {
     const dates = formatDateSplit(date);
     let yearIndex = dbYear.indexOf(dates.year);
-
-    const arr = dbMonth[yearIndex][dates.month][dates.day].map((index) => {
-      dbMonth[yearIndex][dates.month][dates.day][index] = { ..._patientsList[index] }
+  
+    dbMonth[yearIndex][dates.month][dates.day].map((patient, index) => {
+      let current = _patientsList.find((_patient) => _patient.id === patient.id);
+      dbMonth[yearIndex][dates.month][dates.day][index] = { ...current } 
     })
 
     return { status: 200, message : "Atualizado com sucesso" }
@@ -138,3 +139,5 @@ class databaseController {
 }
 
 module.exports = new databaseController();
+
+  
