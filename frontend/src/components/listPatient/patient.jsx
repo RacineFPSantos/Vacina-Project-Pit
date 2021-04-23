@@ -2,7 +2,7 @@ import React from 'react';
 import { calculateAge } from '../../utils/dateFormatter';
 
 const Patient = ({
-  patient: { id, name, birthdate, dateVaccine, timeVaccine },
+  patient: { id, name, birthdate, dateVaccine, timeVaccine, hasVaccinated },
   editPatient,
 }) => {
   const firstAndLastName = (_name) => {
@@ -24,6 +24,7 @@ const Patient = ({
         <td className="td-center">{calculateAge(birthdate)}</td>
         <td>{dateVaccine}</td>
         <td>{timeVaccine}</td>
+        <td>{hasVaccinated ? 'Sim' : 'Não'}</td>
         <td>
           <button
             type="button"

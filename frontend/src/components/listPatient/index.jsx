@@ -28,6 +28,7 @@ const index = () => {
               <th>Idade</th>
               <th>Data Vacina</th>
               <th>Horario Vacina</th>
+              <th>Vacinado</th>
               <th>Observações</th>
             </tr>
           </thead>

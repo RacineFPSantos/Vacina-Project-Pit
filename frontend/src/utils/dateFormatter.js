@@ -12,4 +12,16 @@ const calculateAge = (date) => {
   return differenceInCalendarYears(new Date(), birthdate);
 };
 
-export { formatDate, formatTime, calculateAge };
+const getPreviewsDay = (date) => {
+  const yesterday = new Date(date);
+  yesterday.setDate(yesterday.getDate() - 1);
+  return yesterday;
+};
+
+const getNextDay = (date) => {
+  const tomorrow = new Date(date);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  return tomorrow;
+};
+
+export { formatDate, formatTime, calculateAge, getPreviewsDay, getNextDay };

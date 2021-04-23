@@ -36,16 +36,22 @@ const index = () => {
       dateVaccine: formatDate(dateVaccine),
       timeVaccine: formatTime(timeVaccine),
       hasVaccinated: false,
+      description: '',
     };
 
     setModalData(patient);
 
     try {
       await axios.post('/paciente', patient).catch((err) => {
+        if (err.message === 'Network Error') {
+          throw new Error('Error de conexão');
+        }
+
         if (err.response.status === 409) {
           throw new Error(err.response.data.message);
         }
-        throw err;
+
+        throw err.message;
       });
       setShow(true);
     } catch (err) {
