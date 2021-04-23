@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-bootstrap';
 import { calculateAge } from '../../utils/dateFormatter';
 
 const Patient = ({
@@ -26,14 +27,15 @@ const Patient = ({
         <td>{timeVaccine}</td>
         <td>{hasVaccinated ? 'Sim' : 'Não'}</td>
         <td>
-          <button
+          <Button
             type="button"
+            variant="info"
             onClick={() => {
               editPatient(id);
             }}
           >
             Editar
-          </button>
+          </Button>
         </td>
       </tr>
     </>

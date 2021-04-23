@@ -24,13 +24,13 @@ const patientDetailsForm = ({ modalData = {}, onClose }) => {
 
   const onSubmit = async (values) => {
     try {
-      await axios.put(`/paciente/${values.id}`, { ...values }).then(() => {
-        const newPatientList = patientsList.map((patient) =>
-          patient.id === values.id ? { ...patient, ...values } : patient,
-        );
-        setPatientsList(newPatientList);
-        updateLocal(values.dateVaccine, values);
-      });
+      await axios.put(`/paciente/${values.id}`, { ...values });
+
+      const newPatientList = patientsList.map((patient) =>
+        patient.id === values.id ? { ...patient, ...values } : patient,
+      );
+      setPatientsList(newPatientList);
+      updateLocal(values.dateVaccine, values);
     } catch (error) {
       if (error.message === 'Network Error') {
         updateLocal(values.dateVaccine, values);

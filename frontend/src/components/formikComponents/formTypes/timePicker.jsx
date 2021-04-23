@@ -2,6 +2,7 @@ import React from 'react';
 import DateView from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Field, ErrorMessage } from 'formik';
+import { format } from 'date-fns';
 import setHours from 'date-fns/setHours';
 import setMinutes from 'date-fns/setMinutes';
 import brasizilianLocale from 'date-fns/locale/pt-BR';
@@ -11,10 +12,12 @@ import TextError from '../../textError';
 const TimePicker = ({
   label,
   name,
-  timeIntervals,
-  timeCaption,
-  minTime: { minHour, minMinutes },
-  maxTime: { maxHour, maxMinutes },
+  timeConfig: {
+    timeIntervals,
+    timeCaption,
+    minTime: { minHour, minMinutes },
+    maxTime: { maxHour, maxMinutes },
+  },
   ...props
 }) => (
   <Form.Group>
@@ -49,5 +52,4 @@ const TimePicker = ({
     <ErrorMessage name={name} component={TextError} />
   </Form.Group>
 );
-
 export default TimePicker;

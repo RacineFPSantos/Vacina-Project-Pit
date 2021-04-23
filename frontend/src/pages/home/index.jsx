@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Button, ButtonGroup } from 'react-bootstrap';
-import Page from '../components/page';
+import Page from '../../components/page';
 
 function Index({ history }) {
   return (

@@ -4,7 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../components/header';
 import Footer from '../components/footer';
 
-import Home from '../pages';
+import Home from '../pages/home';
 import Agendar from '../pages/agendar';
 import ListaAgendados from '../pages/listaAgendados';
 

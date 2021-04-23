@@ -6,7 +6,7 @@ import brasizilianLocale from 'date-fns/locale/pt-BR';
 import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
-const DatePicker = ({ label, name, minDate, ...props }) => (
+const DatePicker = ({ label, name, minDate = null, ...props }) => (
   <Form.Group>
     <Form.Label>{label}</Form.Label>
     <br />

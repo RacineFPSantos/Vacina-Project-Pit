@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form } from 'formik';
 import { v4 as uuidv4 } from 'uuid';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
 import axios from '../../utils/api';
@@ -16,9 +16,12 @@ const index = () => {
   const [modalData, setModalData] = useState({});
 
   // Time configuration
-  const minTime = { minHour: 7, minMinutes: 0 };
-  const maxTime = { maxHour: 16, maxMinutes: 30 };
-  const timeIntervals = 30;
+  const timeConfig = {
+    timeCaption: 'Horário',
+    minTime: { minHour: 7, minMinutes: 0 },
+    maxTime: { maxHour: 16, maxMinutes: 30 },
+    timeIntervals: 30,
+  };
 
   // Formik
   const initialValues = {
@@ -64,7 +67,10 @@ const index = () => {
       <ConfirmationModal show={show} setShow={setShow} modalData={modalData} />
       <Formik
         initialValues={initialValues}
-        validationSchema={validationSchema(minTime.minHour, maxTime.maxHour)}
+        validationSchema={validationSchema(
+          timeConfig.minTime.minHour,
+          timeConfig.maxTime.maxHour,
+        )}
         onSubmit={onSubmit}
       >
         {(formik) => (
@@ -87,7 +93,6 @@ const index = () => {
                   control="date"
                   label="Data de nascimento"
                   name="birthdate"
-                  minDate={null}
                 />
               </Col>
             </Row>
@@ -109,19 +114,13 @@ const index = () => {
                   control="time"
                   label="Hora"
                   name="timeVaccine"
-                  timeCaption="Horário"
-                  timeIntervals={timeIntervals}
-                  minTime={minTime}
-                  maxTime={maxTime}
+                  timeConfig={timeConfig}
                 />
               </Col>
             </Row>
-            <button
-              className="btn btn-primary btn-block btn-agendar"
-              type="submit"
-            >
+            <Button className="btn-block btn-agendar" type="submit">
               Agendar
-            </button>
+            </Button>
           </Form>
         )}
       </Formik>
