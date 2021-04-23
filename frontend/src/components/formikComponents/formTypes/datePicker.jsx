@@ -7,7 +7,7 @@ import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
 const DatePicker = ({ label, name, minDate = null, ...props }) => (
-  <Form.Group>
+  <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
     <br />
     <Field name={name}>

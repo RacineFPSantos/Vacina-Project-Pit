@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
 const Input = ({ label, name, ...props }) => (
-  <Form.Group>
+  <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
     <Field
       className="form-control"

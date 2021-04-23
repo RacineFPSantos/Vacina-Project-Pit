@@ -6,7 +6,7 @@ import TextError from '../../textError';
 const TextArea = (props) => {
   const { label, name, ...rest } = props;
   return (
-    <Form.Group>
+    <Form.Group controlId={name}>
       <Form.Label>{label}</Form.Label>
       <Field
         className="form-control"

@@ -4,7 +4,7 @@ import { Form } from 'react-bootstrap';
 import TextError from '../../textError';
 
 const Checkbox = ({ label, name, ...props }) => (
-  <Form.Group>
+  <Form.Group controlId={name}>
     <Field
       as={Form.Check}
       type="checkbox"

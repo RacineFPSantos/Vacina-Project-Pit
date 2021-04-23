@@ -19,7 +19,7 @@ const TimePicker = ({
   },
   ...props
 }) => (
-  <Form.Group>
+  <Form.Group controlId={name}>
     <Form.Label>{label}</Form.Label>
     <br />
     <Field name={name}>
