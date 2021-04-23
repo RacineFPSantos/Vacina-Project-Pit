@@ -7,6 +7,7 @@ import { PatientsListContext } from '../../context/patientsListContext';
 
 import axios from '../../utils/api';
 import { toastOptions } from '../../utils/toastOptions';
+import { updateLocal, loadLocal } from '../../utils/localStorage';
 
 const patientDetailsForm = ({ modalData = {}, onClose }) => {
   const { patientsList, setPatientsList } = useContext(PatientsListContext);
@@ -18,20 +19,26 @@ const patientDetailsForm = ({ modalData = {}, onClose }) => {
     dateVaccine: modalData.dateVaccine,
     timeVaccine: modalData.timeVaccine,
     hasVaccinated: modalData.hasVaccinated,
-    description: '',
+    description: modalData.description,
   };
 
   const onSubmit = async (values) => {
     try {
-      await axios.put(`/paciente`, { ...values }).then(() => {
+      await axios.put(`/paciente/${values.id}`, { ...values }).then(() => {
         const newPatientList = patientsList.map((patient) =>
           patient.id === values.id ? { ...patient, ...values } : patient,
         );
-
         setPatientsList(newPatientList);
+        updateLocal(values.dateVaccine, values);
       });
     } catch (error) {
-      toast.info(error.message, { ...toastOptions });
+      if (error.message === 'Network Error') {
+        updateLocal(values.dateVaccine, values);
+        setPatientsList(loadLocal(values.dateVaccine));
+        toast.error('Erro de conexão, usando versão local dos dados.', {
+          ...toastOptions,
+        });
+      }
     }
 
     onClose();

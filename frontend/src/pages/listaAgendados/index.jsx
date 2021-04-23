@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { format } from 'date-fns';
 import { toast } from 'react-toastify';
+import { Button } from 'react-bootstrap';
 import Page from '../../components/page';
 import axios from '../../utils/api';
 
 import Table from '../../components/listPatient';
 import { PatientsListContext } from '../../context/patientsListContext';
 import { toastOptions } from '../../utils/toastOptions';
+import { loadLocal, storeLocal } from '../../utils/localStorage';
+import { getPreviewsDay, getNextDay } from '../../utils/dateFormatter';
 
 const index = () => {
-  const { setPatientsList } = useContext(PatientsListContext);
+  const { patientsList, setPatientsList } = useContext(PatientsListContext);
+  const [loading, setLoading] = useState(false);
+  const [networkError, setNetworkError] = useState(false);
   const [currentDate, setCurrentDate] = useState(new Date());
 
   const fetchData = async () => {
+    setLoading(true);
     const newDate = format(currentDate, 'dd/MM/yyyy');
 
     try {
@@ -22,24 +28,40 @@ const index = () => {
         },
       });
 
-      toast.info(response.data.data.message, { ...toastOptions });
+      if (response.data.data.message) {
+        toast.info(response.data.data.message, { ...toastOptions });
+      }
 
       setPatientsList(response.data.data);
+      storeLocal(newDate, response.data.data);
+      setLoading(false);
     } catch (error) {
-      toast.info(error.message, { ...toastOptions });
+      if (error.message === 'Network Error') {
+        setPatientsList(loadLocal(newDate));
+        setLoading(false);
+        setNetworkError(true);
+        toast.error('Erro de conexão, usando versão local dos dados', {
+          ...toastOptions,
+        });
+      }
     }
   };
 
-  const getTomorrow = () => {
-    const tomorrow = new Date(currentDate);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    setCurrentDate(tomorrow);
-  };
+  const UpdateToRemote = async () => {
+    try {
+      const newDate = format(currentDate, 'dd/MM/yyyy');
+      const data = { date: newDate, patientsList };
 
-  const getYesterday = () => {
-    const yesterday = new Date(currentDate);
-    yesterday.setDate(yesterday.getDate() - 1);
-    setCurrentDate(yesterday);
+      await axios.put('/paciente', data);
+
+      setNetworkError(false);
+    } catch (error) {
+      if (error.message === 'Network Error') {
+        toast.error('Erro de conexão, ação impossibilitada', {
+          ...toastOptions,
+        });
+      }
+    }
   };
 
   useEffect(() => {
@@ -50,17 +72,30 @@ const index = () => {
     <Page>
       <div>
         <div className="btn-date">
-          <button type="button" onClick={() => getYesterday()}>
+          <Button
+            type="button"
+            onClick={() => setCurrentDate(getPreviewsDay(currentDate))}
+          >
             Ontem
-          </button>
-          <button type="button" onClick={() => setCurrentDate(new Date())}>
+          </Button>
+          <Button type="button" onClick={() => setCurrentDate(new Date())}>
             Hoje
-          </button>
-          <button type="button" onClick={() => getTomorrow()}>
+          </Button>
+          <Button
+            type="button"
+            onClick={() => setCurrentDate(getNextDay(currentDate))}
+          >
             Amanha
-          </button>
+          </Button>
         </div>
-        <Table />
+        <div>{loading ? <h3>Loading...</h3> : <Table />}</div>
+        {networkError ? (
+          <div className="d-flex justify-content-end">
+            <Button type="button" onClick={UpdateToRemote}>
+              Atualizar dados
+            </Button>
+          </div>
+        ) : null}
       </div>
     </Page>
   );
