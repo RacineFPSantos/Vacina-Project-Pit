@@ -63,7 +63,7 @@ const addDay = (dates, yearIndex, _patient) => {
   } catch (error) {
     return { status: 409 , message : error.message }
   }  
-  
+
   return { status: 200 , message : 'Agendado com sucesso' }
 }
 
@@ -82,7 +82,6 @@ class databaseController {
   getData(date){
     const dates = formatDateSplit(date);   
     let yearIndex = dbYear.indexOf(dates.year);
-
     try {
       if(yearIndex === EmptyArray){
         throw new Error('Nenhum agendamento para esse ano encontrado'); 
@@ -92,7 +91,7 @@ class databaseController {
         throw new Error('Nenhum agendamento para esse mês encontrado'); 
       }
 
-      if(hasIn(dates.day, dbMonth[yearIndex][dates.month])){
+      if(hasIn(dates.day, dbMonth[yearIndex][dates.month])){        
         return dbMonth[yearIndex][dates.month][dates.day];
       }else{
         throw new Error('Nenhum agendamento para esse dia encontrado'); 
@@ -106,15 +105,16 @@ class databaseController {
     }
   }
 
-  updateData(_patient) {
+  updatePatient(_patient) { 
     try {
-      const dates = formatDateSplit(_patient.dateVaccine);   
-      const yearIndex = dbYear.indexOf(dates.year);
+      const dates = formatDateSplit(_patient.dateVaccine);
+      let yearIndex = dbYear.indexOf(dates.year); 
 
       const dayScheduleList = this.getData(_patient.dateVaccine);
       const OldPatientIndex = dayScheduleList.findIndex((patient) => patient.id === _patient.id);
       
-      dbMonth[yearIndex][dates.month][dates.day][OldPatientIndex] = { ... _patient}   
+      dbMonth[yearIndex][dates.month][dates.day][OldPatientIndex] = { ... _patient}  
+      
     }catch(error){
       return { 
         status: 200, 
@@ -122,6 +122,17 @@ class databaseController {
       }
     }
  
+    return { status: 200, message : "Atualizado com sucesso" }
+  }
+
+  updateData(date, _patientsList) {
+    const dates = formatDateSplit(date);
+    let yearIndex = dbYear.indexOf(dates.year);
+
+    const arr = dbMonth[yearIndex][dates.month][dates.day].map((index) => {
+      dbMonth[yearIndex][dates.month][dates.day][index] = { ..._patientsList[index] }
+    })
+
     return { status: 200, message : "Atualizado com sucesso" }
   }
 }

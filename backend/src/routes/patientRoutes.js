@@ -5,6 +5,7 @@ const router = Router();
 
 router.get("/paciente", PatientController.index);
 router.post("/paciente", PatientController.store);
-router.put("/paciente", PatientController.update);
+router.put("/paciente/:id", PatientController.updatePatient);
+router.put("/paciente", PatientController.updateData);
 
 module.exports = router;
